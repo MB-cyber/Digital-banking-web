@@ -5,8 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CustomersComponent } from './customers/customers.component';
-import { AccountsComponent } from './accounts/accounts.component';
-import * as http from "http";
+import { AccountsComponent } from './accounts/accounts.component'
 import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
