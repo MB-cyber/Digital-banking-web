@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-accounts',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./accounts.component.css']
 })
 export class AccountsComponent implements OnInit {
+  accountFormGroup! : FormGroup
 
-  constructor() { }
+  constructor(private  fb :FormBuilder ) { }
 
   ngOnInit(): void {
+    this.accountFormGroup=this.fb.group({
+      accountId : this.fb.control((''))
+    });
   }
 
+  handlesSearchAccount() {
+
+  }
 }
