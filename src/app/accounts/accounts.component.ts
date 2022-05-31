@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AccountsService} from "../services/accounts.service";
-import {Observable} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {AccountDetails} from "../model/account.model";
 
 @Component({
@@ -15,6 +15,7 @@ export class AccountsComponent implements OnInit {
   pageSize : number =5;
   accountObservable! : Observable<AccountDetails>
   operationFromGroup! : FormGroup;
+  errorMessage! :string ;
 
 
   constructor(private  fb :FormBuilder, private accountService : AccountsService) { }
@@ -33,7 +34,11 @@ export class AccountsComponent implements OnInit {
 
   handlesSearchAccount() {
     let accountId : string =this.accountFormGroup.value.accountId;
-    this.accountObservable=this.accountService.getAccount(accountId,this.currentPage,this.pageSize);
+    this.accountObservable=this.accountService.getAccount(accountId,this.currentPage,this.pageSize).pipe(
+      catchError(err => {
+        this.errorMessage=err.message;
+        return throwError(err);
+      }));
 
   }
 
