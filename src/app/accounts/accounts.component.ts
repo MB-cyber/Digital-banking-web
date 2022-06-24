@@ -3,6 +3,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {AccountsService} from "../services/accounts.service";
 import {catchError, Observable, throwError} from "rxjs";
 import {AccountDetails} from "../model/account.model";
+import {Customer} from "../model/customer.model";
+import {BankAccount} from "../model/BankAccount.model";
+import {ActivatedRoute, Route, Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-accounts',
@@ -16,20 +20,44 @@ export class AccountsComponent implements OnInit {
   accountObservable! : Observable<AccountDetails>
   operationFromGroup! : FormGroup;
   errorMessage! :string ;
+  bankaccount!: BankAccount;
+  aid :string ="" ;
 
 
-  constructor(private  fb :FormBuilder, private accountService : AccountsService) { }
+
+
+  constructor( private  fb :FormBuilder, private accountService : AccountsService, private router :Router) {
+
+  this.bankaccount =this.router.getCurrentNavigation()?.extras.state as BankAccount;
+
+
+
+  }
 
   ngOnInit(): void {
+    if(this.bankaccount){
+ this.aid=this.bankaccount.id;
+      this.accountFormGroup=this.fb.group({
+        accountId : this.fb.control((this.aid))
+      });
+      this.handlesSearchAccount();
+    }
+
+
+
     this.accountFormGroup=this.fb.group({
-      accountId : this.fb.control((''))
+      accountId : this.fb.control((this.aid))
     });
-    this.operationFromGroup=this.fb.group({
-      operationType : this.fb.control(null),
-      amount : this.fb.control(0),
-      description : this.fb.control(null),
-      accountDestination : this.fb.control(null)
-    })
+      this.operationFromGroup=this.fb.group({
+        operationType : this.fb.control(null),
+        amount : this.fb.control(0),
+        description : this.fb.control(null),
+        accountDestination : this.fb.control(null)
+      })
+
+
+
+
   }
 
   handlesSearchAccount() {

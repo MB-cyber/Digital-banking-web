@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Customer} from "../model/customer.model";
 import {environment} from "../../environments/environment";
+import {AccountDetails} from "../model/account.model";
+import {BankAccount} from "../model/BankAccount.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class CustomerService {
 
   constructor(private http:HttpClient) { }
 
-  public getCustomers():Observable<Array<Customer>>{
+  public getCusttomers():Observable<Array<Customer>>{
     return this.http.get<Array<Customer>>(environment.backendhots+"/customers")    }
 
   public searshCustomers(keyword : string):Observable<Array<Customer>>{
@@ -26,5 +28,9 @@ export class CustomerService {
   }
   public deleteCustomer(id: number){
     return this.http.delete(environment.backendhots+"/customers/"+id);
+  }
+
+  public getCustomerAccounts(id: number):Observable<Array<BankAccount>>{
+    return this.http.get<Array<BankAccount>>(environment.backendhots+"/customer-accounts/"+id);
   }
 }

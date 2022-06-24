@@ -1,4 +1,40 @@
 <div class="container">
   <div>{{customerId}}</div>
-  <div>{{customer | json}}</div>
+
+  <div>{{Accounts | json}}</div>
+  <ng-container *ngIf="Accounts | async as AccountDetails ">
+    <div class="card" >
+
+      <div class="card-header"> Customers-Account : Owner :{{AccountDetails[0].customerDTO.name}} _ ID: {{customerId}}</div>
+      <div class="card-body">
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th>ID</th><th>Type</th><th>Balance</th><th>overDraft</th><th>interestRate</th>
+          </tr>
+
+          </thead>
+          <tbody>
+          <tr *ngFor="let a of AccountDetails">
+            <td>{{a.id}}</td>
+            <td>{{a.type}}</td>
+            <td>{{a.balance}} $</td>
+            <td *ngIf="a.overDraft as val; else elseBlock">{{val}}</td>
+            <td *ngIf="a.interestRate as val ;else elseBlock">{{val}}</td>
+            <ng-template #elseBlock><td>_______</td></ng-template>
+            <td>
+              <button (click)="handleAccountOperations(a)" class="btn btn-success">
+                Accounts
+              </button>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  </ng-container>
 </div>
